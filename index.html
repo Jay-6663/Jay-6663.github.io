@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07070a" />
+  <title>作品集</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700;900&family=Playfair+Display:ital,wght@0,700;0,800;1,800&display=swap');
+
+    :root { --ink: #f7f3ec; --muted: rgba(247,243,236,.68); --line: rgba(247,243,236,.22); }
+    * { box-sizing: border-box; }
+    html { scroll-snap-type: y mandatory; scroll-behavior: smooth; background: #07070a; }
+    body { margin: 0; background: #07070a; color: var(--ink); font-family: "Noto Sans SC", sans-serif; overflow-x: hidden; }
+    .panel { min-height: 100svh; scroll-snap-align: start; scroll-snap-stop: always; position: relative; display: grid; align-items: end; isolation: isolate; overflow: hidden; }
+    .panel::before { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(2,2,5,.83) 0%, rgba(3,3,6,.32) 58%, rgba(3,3,6,.12) 100%), linear-gradient(0deg, rgba(0,0,0,.38), transparent 55%); z-index: -1; }
+    .cover { position:absolute; inset:0; z-index:-2; overflow:hidden; background: var(--bg); }
+    .cover::after { content:""; position:absolute; inset:-12%; background: radial-gradient(circle at var(--glow-x, 70%) var(--glow-y, 25%), var(--glow, rgba(255,255,255,.18)), transparent 34%); mix-blend-mode: screen; animation: drift 12s ease-in-out infinite alternate; }
+    .texture { position:absolute; inset:0; opacity:.32; background-image: linear-gradient(115deg, transparent 42%, rgba(255,255,255,.08) 42.2%, transparent 42.4%), radial-gradient(circle at 78% 48%, rgba(255,255,255,.26) 0 1px, transparent 1.5px); background-size: 100% 100%, 21px 21px; mix-blend-mode: overlay; }
+    @keyframes drift { to { transform: translate(-3%, 2%) scale(1.08); } }
+
+    .cover-panel { align-items: stretch; padding: clamp(26px, 4vw, 64px); }
+    .cover-panel::before { background: linear-gradient(120deg, rgba(7,7,10,.78), rgba(7,7,10,.12) 70%), linear-gradient(0deg, rgba(0,0,0,.35), transparent); }
+    .cover-content { display:flex; flex-direction:column; justify-content:space-between; min-height:calc(100svh - clamp(52px, 8vw, 128px)); }
+    .brand { font: 500 11px/1 "DM Mono", monospace; letter-spacing:.15em; text-transform:uppercase; color: var(--muted); }
+    .hero { max-width: 1020px; margin-bottom: 7vh; }
+    .eyebrow { display:block; margin-bottom: 18px; font: 500 11px/1.4 "DM Mono", monospace; letter-spacing:.16em; text-transform:uppercase; color:#d9e1ff; }
+    .hero h1 { margin:0; font-family:"Playfair Display","Noto Sans SC",serif; font-size:clamp(52px, 10vw, 148px); line-height:.93; letter-spacing:-.065em; font-weight:800; max-width:8ch; text-wrap:balance; }
+    .hero h1 .slot { font-family:"Noto Sans SC",sans-serif; font-weight:900; font-size:.72em; letter-spacing:-.08em; }
+    .cover-bottom { display:flex; align-items:flex-end; justify-content:space-between; gap:20px; font-size:13px; color:var(--muted); }
+    .scroll-cue { display:flex; gap:10px; align-items:center; font:500 10px "DM Mono", monospace; letter-spacing:.14em; }
+    .scroll-cue i { display:block; height:44px; width:1px; background:var(--ink); animation:scrollLine 1.6s ease-in-out infinite; transform-origin:top; }
+    @keyframes scrollLine { 0%,100%{transform:scaleY(.25);opacity:.3} 50%{transform:scaleY(1);opacity:1} }
+
+    .project { padding: clamp(24px, 4.5vw, 70px); }
+    .project-inner { width:min(650px, 100%); padding-bottom:clamp(15px, 3.2vh, 45px); }
+    .index { display:block; margin-bottom:25px; color:#fff; font:500 11px "DM Mono",monospace; letter-spacing:.14em; opacity:.8; }
+    .project h2 { margin:0; font-size:clamp(44px, 7.2vw, 110px); line-height:.92; letter-spacing:-.075em; font-weight:900; text-wrap:balance; }
+    .project h2 .letter { display:inline-block; opacity:0; transform:translate3d(0, 95%, 0) rotate(7deg); filter:blur(7px); }
+    .project.is-active h2 .letter { animation:titleIn .68s cubic-bezier(.16,1,.3,1) forwards; animation-delay:calc(var(--i) * 42ms + 160ms); }
+    @keyframes titleIn { to { opacity:1; transform:translate3d(0,0,0) rotate(0); filter:blur(0); } }
+    .description { min-height:3.4em; max-width:47ch; margin:22px 0 27px; font-size:clamp(14px, 1.25vw, 18px); line-height:1.75; color:var(--muted); }
+    .cursor { display:inline-block; width:7px; height:1.15em; margin-left:3px; vertical-align:-.2em; background:var(--ink); animation:blink .75s step-end infinite; }
+    @keyframes blink { 50% { opacity:0; } }
+    .view-button { appearance:none; border:1px solid var(--line); background:rgba(255,255,255,.06); color:var(--ink); border-radius:999px; padding:0 19px; min-height:48px; display:inline-flex; align-items:center; gap:20px; cursor:pointer; font:500 11px "DM Mono",monospace; letter-spacing:.11em; text-transform:uppercase; text-decoration:none; transition:background .25s, color .25s, transform .18s, border-color .25s; }
+    .view-button b { font:400 19px/1 Arial; transition:transform .25s cubic-bezier(.2,.9,.2,1); }
+    .view-button:hover { background:var(--ink); border-color:var(--ink); color:#0a0a0d; transform:translateY(-3px); }
+    .view-button:hover b { transform:translateX(4px); }
+    .view-button:active { transform:translateY(1px) scale(.96); background:#c9c2b8; }
+    .view-button:focus-visible { outline:2px solid #fff; outline-offset:4px; }
+    .nav { position:fixed; z-index:10; right:clamp(19px, 3vw, 45px); top:50%; transform:translateY(-50%); display:flex; flex-direction:column; gap:12px; }
+    .nav a { display:block; width:8px; height:8px; border:1px solid rgba(255,255,255,.7); border-radius:50%; transition:all .3s; }
+    .nav a.active { height:27px; border-radius:10px; background:white; }
+    .page-count { position:fixed; z-index:10; left:clamp(24px, 4vw, 64px); top:clamp(24px, 4vw, 58px); font:500 11px "DM Mono",monospace; letter-spacing:.13em; color:var(--muted); }
+    @media (max-width: 640px) { .project::before { background:linear-gradient(0deg,rgba(0,0,0,.68),rgba(0,0,0,.15) 75%); } .project-inner{padding-bottom:28px}.cover-bottom span:first-child{display:none}.nav{right:17px}.page-count{left:25px} }
+    @media (prefers-reduced-motion: reduce) { *,*::before,*::after { scroll-behavior:auto!important; animation-duration:.001ms!important; animation-iteration-count:1!important; transition-duration:.001ms!important; } }
+  </style>
+</head>
+<body>
+  <!--
+    编辑区：只需要改下面 portfolioItems 里的 title、intro、cover 与 link。
+    link 可放 .pdf、.doc/.docx、.mp4 或任意网页地址；它不会显示在页面上。
+  -->
+  <main id="app"></main>
+  <nav class="nav" id="nav" aria-label="页面导航"></nav>
+  <div class="page-count" id="pageCount">01 / 04</div>
+
+  <script>
+    // ========== 作品内容与链接接口（仅在此处修改） ==========
+    const portfolioTitle = '《xxx的作品集》';
+    const portfolioItems = [
+      { title: 'NEON//RUSH', intro: '一场高速、危险、没有刹车的霓虹竞速体验。玩家在垂直都市的夜色里，向最后一盏灯冲刺。', link: 'assets/neon-rush.pdf', bg: 'linear-gradient(135deg, #090425 0%, #24106b 42%, #fa2687 100%)', glow: 'rgba(255, 73, 172, .85)', glowX:'78%', glowY:'28%' },
+      { title: 'MOSS & MYTH', intro: '在会呼吸的森林中找回遗失的神话。用光、声音与耐心，让沉睡的世界重新开始生长。', link: 'assets/moss-myth.mp4', bg: 'linear-gradient(135deg, #10221d 0%, #2d5949 45%, #a1b56e 100%)', glow: 'rgba(214, 246, 125, .64)', glowX:'77%', glowY:'30%' },
+      { title: 'AFTER THE TIDE', intro: '潮水退去之后，城市留下了会说话的废墟。这是一封写给记忆、失去与重建的互动书信。', link: 'assets/after-tide.docx', bg: 'linear-gradient(135deg, #041b32 0%, #125275 47%, #d48b68 100%)', glow: 'rgba(127, 219, 255, .72)', glowX:'72%', glowY:'24%' }
+    ];
+    // =====================================================
+
+    const app = document.querySelector('#app');
+    const nav = document.querySelector('#nav');
+    document.title = portfolioTitle.replace(/[《》]/g, '');
+    const cover = document.createElement('section');
+    cover.className = 'panel cover-panel'; cover.id = 'page-0';
+    cover.style.setProperty('--bg', 'linear-gradient(125deg, #0e0b12 5%, #282142 48%, #f06b57 150%)');
+    cover.innerHTML = `<div class="cover"><div class="texture"></div></div><div class="cover-content"><div class="brand">Selected Works · 2026</div><div class="hero"><span class="eyebrow">Digital game design / visual direction</span><h1><span class="slot">${portfolioTitle}</span></h1></div><div class="cover-bottom"><span>Scroll to explore the selected works</span><span class="scroll-cue">SCROLL <i></i></span></div></div>`;
+    app.append(cover);
+    portfolioItems.forEach((item, i) => {
+      const section = document.createElement('section'); section.className = 'panel project'; section.id = `page-${i + 1}`;
+      section.style.setProperty('--bg', item.bg); section.style.setProperty('--glow', item.glow); section.style.setProperty('--glow-x', item.glowX); section.style.setProperty('--glow-y', item.glowY);
+      const title = [...item.title].map((char, x) => `<span class="letter" style="--i:${x}">${char === ' ' ? '&nbsp;' : char}</span>`).join('');
+      section.innerHTML = `<div class="cover"><div class="texture"></div></div><div class="project-inner"><span class="index">PROJECT / 0${i + 1}</span><h2 aria-label="${item.title}">${title}</h2><p class="description" data-text="${item.intro}"></p><a class="view-button" href="${item.link}" target="_blank" rel="noopener" aria-label="查看 ${item.title} 的完整作品"><span>查看作品</span><b>→</b></a></div>`;
+      app.append(section);
+    });
+    const panels = [...document.querySelectorAll('.panel')];
+    panels.forEach((panel, i) => { const a = document.createElement('a'); a.href = `#page-${i}`; a.setAttribute('aria-label', `前往第 ${i + 1} 页`); nav.append(a); });
+    const dots = [...nav.children]; const count = document.querySelector('#pageCount');
+    function typeText(el) { if (el.dataset.played) return; el.dataset.played = 'true'; const text = el.dataset.text; let n = 0; const cursor = document.createElement('span'); cursor.className='cursor'; el.append(cursor); const timer = setInterval(() => { el.insertBefore(document.createTextNode(text[n++] || ''), cursor); if (n >= text.length) { clearInterval(timer); setTimeout(() => cursor.remove(), 900); } }, 25); }
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => { if (!entry.isIntersecting) return; const i = panels.indexOf(entry.target); dots.forEach((dot, x) => dot.classList.toggle('active', x === i)); count.textContent = `${String(i + 1).padStart(2,'0')} / ${String(panels.length).padStart(2,'0')}`; entry.target.classList.add('is-active'); const text = entry.target.querySelector('.description'); if (text) setTimeout(() => typeText(text), 420); }), { threshold: .58 });
+    panels.forEach(panel => observer.observe(panel));
+  </script>
+</body>
+</html>
