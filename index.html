@@ -69,11 +69,11 @@
     // ========== 作品内容与链接接口（仅在此处修改） ==========
     const portfolioTitle = '《陈子杰的作品集》';
     const portfolioItems = [
-      { title: '海盗冒险记', intro: '基于ue5设计的多机关闯关休闲类型游戏', link: 'docs/海岛冒险记.pdf', bg: 'url('image/海岛宣传图.png') center / cover no-repeat'},
-      { title: '小鸡英雄', intro: '基于unity设计的多人在线平台类轻竞技多人游戏', link: 'docs/小鸡英雄.pdf', bg: 'url('image/ChickenHero.png') center / cover no-repeat'},
-      { title: '剑之道', intro: '拆解黑魂战斗系统并优化设计动作类ARPG游戏', link: 'videos/ARPG.mp4', bg: 'url('image/DarkS.jpg') center / cover no-repeat' },
-       { title: '无尽冬日拆解案', intro: '拆解其商业模式以及核心循环', link: 'docs/无尽冬日_游戏拆解案.docx', bg: 'url('image/EndlessWinter.jpg') center / cover no-repeat' },
-       { title: '阿瑞斯病毒2家园系统设计方案', intro: '针对游戏现存问题设计', link: 'docs/HomeSystem.pdf', bg: 'url('image/UI界面.png') center / cover no-repeat' }
+      { title: '海盗冒险记', intro: '基于ue5设计的多机关闯关休闲类型游戏', link: 'docs/海岛冒险记.pdf', bg: 'url('images/海岛宣传图.png') center / cover no-repeat'},
+      { title: '小鸡英雄', intro: '基于unity设计的多人在线平台类轻竞技多人游戏', link: 'docs/小鸡英雄.pdf', bg: 'url('images/ChickenHero.png') center / cover no-repeat'},
+      { title: '剑之道', intro: '拆解黑魂战斗系统并优化设计动作类ARPG游戏', link: 'videos/ARPG.mp4', bg: 'url('images/DarkS.jpg') center / cover no-repeat' },
+       { title: '无尽冬日拆解案', intro: '拆解其商业模式以及核心循环', link: 'docs/无尽冬日_游戏拆解案.docx', bg: 'url('images/EndlessWinter.jpg') center / cover no-repeat' },
+       { title: '阿瑞斯病毒2家园系统设计方案', intro: '针对游戏现存问题设计', link: 'docs/HomeSystem.pdf', bg: 'url('images/UI界面.png') center / cover no-repeat' }
     ];
     // =====================================================
 
@@ -82,7 +82,7 @@
     document.title = portfolioTitle.replace(/[《》]/g, '');
     const cover = document.createElement('section');
     cover.className = 'panel cover-panel'; cover.id = 'page-0';
-    cover.style.setProperty('--bg', 'image/title.png');
+    cover.style.setProperty('--bg', 'images/title.png');
     cover.innerHTML = `<div class="cover"><div class="texture"></div></div><div class="cover-content"><div class="brand">Selected Works · 2026</div><div class="hero"><span class="eyebrow">Digital game design / visual direction</span><h1><span class="slot">${portfolioTitle}</span></h1></div><div class="cover-bottom"><span>Scroll to explore the selected works</span><span class="scroll-cue">SCROLL <i></i></span></div></div>`;
     app.append(cover);
     portfolioItems.forEach((item, i) => {
